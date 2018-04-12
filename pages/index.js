@@ -1,22 +1,25 @@
 import { Scaffold } from './contracts/Scaffold.sol'
 import IPFS from 'ipfs'
 
-const Index = (props) => {
-  const { _address } = Scaffold
+class Index extends React.Component {
+  state = {
+    ipfsReady: false
+  }
 
-  return (
-    <div>
-      <p>Contract Address</p>
-      { _address }
-    </div>
-  )
-}
+  componentDidMount() {
+    const ipfs = new IPFS()
 
-Index.getInitialProps = async (context) => {
-  const node = new IPFS()
+    ipfs.once('ready', () => {
+      this.setState({ ipfsReady: true })
+    })
+  }
 
-  return {
-    ipfs
+  render() {
+    console.log(`IPFS node ready: ${this.state.ipfsReady}`)
+
+    return (
+      <div>Hello</div>
+    )
   }
 }
 
