@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "abi-decoder": "^1.1.0",
+    "ipfs": "^0.28.2",
     "next": "^5.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
@@ -23,6 +24,7 @@
     "blockchain": "ganache-cli",
     "compile": "sulk --config ./config/sulk.config.js",
     "deploy": "node scripts/deploy-contracts.js --config ./config/contracts.deploy.config.js --rpc development",
-    "test": "jest"
+    "test": "jest",
+    "ipfs-install": "./ipfs-update install 0.4.14"
   }
 }

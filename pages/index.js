@@ -1,7 +1,9 @@
 import { Scaffold } from './contracts/Scaffold.sol'
+import IPFS from 'ipfs'
 
-export default () => {
+const Index = (props) => {
   const { _address } = Scaffold
+
   return (
     <div>
       <p>Contract Address</p>
@@ -9,3 +11,13 @@ export default () => {
     </div>
   )
 }
+
+Index.getInitialProps = async (context) => {
+  const node = new IPFS()
+
+  return {
+    ipfs
+  }
+}
+
+export default Index
