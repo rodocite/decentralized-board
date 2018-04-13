@@ -1,13 +1,18 @@
 pragma solidity ^0.4.18;
 
 contract Bank {
-  mapping(bytes32 => uint) Vault;
+  address public owner;
 
-  function getTodoDeposit(bytes32 _id) public view returns (uint) {
-    return Vault[_id];
+  function Bank() public {
+    owner = msg.sender;
   }
 
-  function setTodoDeposit(bytes32 _id, uint _deposit) public {
-    Vault[_id] = _deposit;
+  function withdraw() public {
+    require(owner == msg.sender);
+    msg.sender.transfer(address(this).balance);
+  }
+
+  function deposit(uint256 amount) public payable {
+    msg.sender.transfer(amount);
   }
 }
