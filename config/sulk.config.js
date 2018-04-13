@@ -4,7 +4,7 @@ module.exports = {
   contractFileExtension: 'sol',
 
   contracts: [
-    'Scaffold',
+    'Board',
   ],
 
   inputPath: path.join(__dirname, '../contracts'),
