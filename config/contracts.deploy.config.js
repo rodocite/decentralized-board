@@ -16,7 +16,7 @@ module.exports = {
   outputString: "import web3 from '../web3'\n\n",
 
   rpc: {
-    development: 'http://localhost:8545',
-    production: 'http://localhost:8545',
+    development: 'http://localhost:7545',
+    production: 'http://localhost:7545',
   },
 }

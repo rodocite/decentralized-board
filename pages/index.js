@@ -1,4 +1,5 @@
-import { Board } from './contracts/Scaffold.sol'
+import { Board } from './contracts/Board.sol'
+import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
 
@@ -7,15 +8,17 @@ class Index extends React.Component {
     ipfsReady: false,
     ipfsPath: '',
     ipfsData: '',
-    message: ''
+    message: '',
+    publicAddress: ''
   }
 
   componentDidMount() {
     this.ipfs = new IPFS({ repo: '../repo', init: false })
 
     this.ipfs.once('ready', () => {
-      console.log(`IPFS node ready: ${this.state.ipfsReady}`)
-      this.setState({ ipfsReady: true })
+      this.setState({ ipfsReady: true }, () => {
+        console.log(`IPFS node ready: ${this.state.ipfsReady}`)
+      })
       this.getFromIPFS()
     })
   }
@@ -40,17 +43,24 @@ class Index extends React.Component {
   getFromIPFS = () => {
     if (this.state.ipfsPath)
     this.ipfs.files.get(this.state.ipfsPath, (err, data) => {
-      const { content } = data[0]
+      const { content, path } = data[0]
+      const hex = "0x" + bs58.decode(path).slice(2).toString('hex')
       this.setState({ ipfsData: content.toString() })
+      Board.methods.setAddress(hex).send({ from: this.state.publicAddress, value: 1 })
+      Board.methods.getOwner().call({ from: this.state.publicAddress }).then(console.log)
     })
   }
 
   render() {
-    console.log(this.state)
     return (
       <div>
         <p>{ this.state.ipfsData }</p>
+        <p>Message</p>
         <input onChange={(e) => this.setState({ message: e.target.value })} />
+        <br />
+        <p>Address</p>
+        <input onChange={(e) => this.setState({ publicAddress: e.target.value })} />
+        <br />
         <button onClick={this.addToIPFS}>Submit</button>
       </div>
     )
