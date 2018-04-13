@@ -5,6 +5,8 @@ module.exports = {
 
   contracts: [
     'Board',
+    'Bank',
+    'Storage'
   ],
 
   inputPath: path.join(__dirname, '../contracts'),

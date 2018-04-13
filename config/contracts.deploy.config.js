@@ -5,8 +5,8 @@ module.exports = {
   contractsPath: path.join(__dirname, '../contracts/contracts.json'),
 
   contracts: {
-    Scaffold: {
-      filename: 'Scaffold.sol',
+    Board: {
+      filename: 'Board.sol',
     },
   },
 
