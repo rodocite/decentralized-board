@@ -5,13 +5,13 @@ import IPFS from 'ipfs'
 class Index extends React.Component {
   state = {
     ipfsReady: false,
-    ipfsPath: null,
+    ipfsPath: '',
     ipfsData: '',
     message: ''
   }
 
   componentDidMount() {
-    this.ipfs = new IPFS({ repo: '../repo' })
+    this.ipfs = new IPFS({ repo: '../repo', init: false })
 
     this.ipfs.once('ready', () => {
       console.log(`IPFS node ready: ${this.state.ipfsReady}`)
