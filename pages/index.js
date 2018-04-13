@@ -1,4 +1,4 @@
-import { Scaffold } from './contracts/Scaffold.sol'
+import { Board } from './contracts/Scaffold.sol'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
 

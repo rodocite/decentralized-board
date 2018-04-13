@@ -12,5 +12,8 @@ Currently, it doesn't seem possible to unpin data using the IPFSJS library that 
 
 ```
 npm install
+npm run blockchain
+npm run compile
+npm run deploy
 npm run dev
 ```

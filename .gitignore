@@ -3,4 +3,4 @@ contracts/addresses.json
 contracts/contracts.json
 yarn.lock
 .next
-pages/contracts/Scaffold.sol.js
+pages/contracts/Board.sol.js
