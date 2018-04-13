@@ -14,6 +14,7 @@ contract Board {
 
   function setAddress(bytes32 ipfsAddress) public payable {
     messageStorage.set(ipfsAddress);
+    bank.deposit(msg.value);
   }
 
   function getAddress() public view returns (bytes32) {
