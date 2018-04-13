@@ -20,6 +20,10 @@ class Index extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    this.ipfs.stop()
+  }
+
   addToIPFS = () => {
     const { ipfsReady, message } = this.state
     const message_ = new Buffer(message)
