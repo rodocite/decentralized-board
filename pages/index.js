@@ -27,27 +27,43 @@ class Index extends React.Component {
     this.ipfs.stop()
   }
 
+  decodeIPFSHash(hash) {
+    return web3.utils.bytesToHex(bs58.decode(hash).slice(2))
+  }
+
+  encodeIPFSHash(hash) {
+    const hashHex = '1220' + hash.slice(2)
+    const hashBytes = Buffer.from(hashHex, 'hex')
+    const hashStr = bs58.encode(hashBytes)
+    return hashStr
+  }
+
   addToIPFS = () => {
     const { ipfsReady, message } = this.state
     const message_ = new Buffer(message)
 
     if (message && ipfsReady) {
       this.ipfs.files.add(message_, (err, res) => {
-        this.setState({ ipfsPath: res[0].path }, () => {
-          this.getFromIPFS()
-        })
+        const { hash } = res[0]
+        const decodedHash = this.decodeIPFSHash(hash)
+
+        Board.methods.setAddress(decodedHash).send({ from: this.state.publicAddress })
+          .then(() => {
+            this.setState({ ipfsData: message })
+          })
       })
     }
   }
 
   getFromIPFS = () => {
-    if (this.state.ipfsPath)
-    this.ipfs.files.get(this.state.ipfsPath, (err, data) => {
-      const { content, path } = data[0]
-      const hex = "0x" + bs58.decode(path).slice(2).toString('hex')
-      this.setState({ ipfsData: content.toString() })
-      Board.methods.setAddress(hex).send({ from: this.state.publicAddress, value: 1 })
-      Board.methods.getOwner().call({ from: this.state.publicAddress }).then(console.log)
+    Board.methods.getAddress().call().then((ipfsAddress) => {
+      if (!ipfsAddress) return
+      const ipfsHash = this.encodeIPFSHash(ipfsAddress)
+
+      this.ipfs.files.get(ipfsHash, (err, data) => {
+        const { content, path } = data[0]
+        this.setState({ ipfsData: content.toString() })
+      })
     })
   }
 
