@@ -17,18 +17,7 @@ const deployContracts = (async () => {
     opts.fromAccount = accounts[0]
 
     const boardInterface = compiledContracts.Board
-    const bankInterface = compiledContracts.Bank
     const storageInterface = compiledContracts.Storage
-
-    // Bank
-    const bankContract = new web3.eth
-      .Contract(bankInterface.abi, { data: bankInterface.bytecode })
-
-    const bank = await bankContract
-      .deploy()
-      .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
-
-    const bankAddress = bank.options.address
 
     // Storage
     const storageContract = new web3.eth
@@ -45,7 +34,7 @@ const deployContracts = (async () => {
       .Contract(boardInterface.abi, { data: boardInterface.bytecode })
 
     const board = await boardContract
-      .deploy({ arguments: [ bankAddress, storageAddress ]})
+      .deploy({ arguments: [ storageAddress ]})
       .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
 
     const boardAddress = board.options.address

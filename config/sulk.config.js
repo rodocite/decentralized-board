@@ -5,7 +5,6 @@ module.exports = {
 
   contracts: [
     'Board',
-    'Bank',
     'Storage'
   ],
 
