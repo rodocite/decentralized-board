@@ -1,4 +1,5 @@
 import { Board } from './contracts/Board.sol'
+import { encodeIPFSHash, decodeIPFSHash } from './utilities'
 import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
@@ -27,17 +28,6 @@ class Index extends React.Component {
     this.ipfs.stop()
   }
 
-  decodeIPFSHash(hash) {
-    return web3.utils.bytesToHex(bs58.decode(hash).slice(2))
-  }
-
-  encodeIPFSHash(hash) {
-    const hashHex = '1220' + hash.slice(2)
-    const hashBytes = Buffer.from(hashHex, 'hex')
-    const hashStr = bs58.encode(hashBytes)
-    return hashStr
-  }
-
   addToIPFS = () => {
     const { ipfsReady, message } = this.state
     const message_ = new Buffer(message)
@@ -45,7 +35,7 @@ class Index extends React.Component {
     if (message && ipfsReady) {
       this.ipfs.files.add(message_, (err, res) => {
         const { hash } = res[0]
-        const decodedHash = this.decodeIPFSHash(hash)
+        const decodedHash = decodeIPFSHash(hash)
 
         Board.methods.setAddress(decodedHash).send({ from: this.state.publicAddress })
           .then(() => {
@@ -58,7 +48,7 @@ class Index extends React.Component {
   getFromIPFS = () => {
     Board.methods.getAddress().call().then((ipfsAddress) => {
       if (!ipfsAddress) return
-      const ipfsHash = this.encodeIPFSHash(ipfsAddress)
+      const ipfsHash = encodeIPFSHash(ipfsAddress)
 
       this.ipfs.files.get(ipfsHash, (err, data) => {
         const { content, path } = data[0]
