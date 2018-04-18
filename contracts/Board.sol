@@ -11,8 +11,10 @@ contract Board {
     messageStorage = Storage(_storage);
   }
 
-  function setAddress(bytes32 ipfsAddress) public {
+  function setAddress(bytes32 ipfsAddress) public payable {
+    require(msg.value > 0.001 ether);
     messageStorage.set(ipfsAddress);
+    owner.transfer(msg.value);
   }
 
   function getAddress() public view returns (bytes32) {
