@@ -34,7 +34,7 @@ const deployContracts = (async () => {
       .Contract(boardInterface.abi, { data: boardInterface.bytecode })
 
     const board = await boardContract
-      .deploy({ arguments: [ storageAddress ]})
+      .deploy()
       .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
 
     const boardAddress = board.options.address
