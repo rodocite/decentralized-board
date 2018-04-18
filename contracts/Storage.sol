@@ -10,8 +10,4 @@ contract Storage {
   function getAddress() public view returns (bytes32) {
     return ipfsAddress_;
   }
-
-  function getStorageAddress() public view returns (address) {
-    return address(this);
-  }
 }
