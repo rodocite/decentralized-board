@@ -4,8 +4,10 @@ import "./Storage.sol";
 
 contract Board {
   Storage messageStorage;
+  address owner;
 
   function Board(address _storage) public {
+    owner = msg.sender;
     messageStorage = Storage(_storage);
   }
 
