@@ -3,7 +3,14 @@ import { encodeIPFSHash, decodeIPFSHash } from './utilities'
 import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
+import styled from 'styled-components'
 import _ from 'lodash'
+
+const Block = styled.div`
+  background: rgb(235, 237, 240);
+  width: 10px;
+  height: 10px;
+`
 
 // do this for now to show content
 class Content extends React.Component {
