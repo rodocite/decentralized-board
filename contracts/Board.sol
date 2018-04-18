@@ -12,7 +12,7 @@ contract Board {
   }
 
   function setAddress(bytes32 ipfsAddress) public payable {
-    require(msg.value > 0.001 ether);
+    require(msg.value > 0 ether);
     messageStorage.set(ipfsAddress);
     owner.transfer(msg.value);
   }
