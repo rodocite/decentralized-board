@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "./Storage.sol";
+import "browser/Storage.sol";
 
 contract Board {
   Storage messageStorage;
@@ -13,11 +13,11 @@ contract Board {
 
   function setAddress(bytes32 ipfsAddress) public payable {
     require(msg.value > 0 ether);
-    messageStorage.set(ipfsAddress);
+    messageStorage.set(ipfsAddress, msg.value);
     owner.transfer(msg.value);
   }
 
-  function getAddress() public view returns (bytes32) {
-    return messageStorage.getAddress();
+  function getAddress() public view returns (bytes32[], uint[]) {
+    return messageStorage.getAddresses();
   }
 }
