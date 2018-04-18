@@ -19,16 +19,6 @@ const deployContracts = (async () => {
     const boardInterface = compiledContracts.Board
     const storageInterface = compiledContracts.Storage
 
-    // Storage
-    const storageContract = new web3.eth
-      .Contract(storageInterface.abi, { data: storageInterface.bytecode })
-
-    const storage = await storageContract
-      .deploy()
-      .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
-
-    const storageAddress = storage.options.address
-
     // Board
     const boardContract = new web3.eth
       .Contract(boardInterface.abi, { data: boardInterface.bytecode })
@@ -38,6 +28,16 @@ const deployContracts = (async () => {
       .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
 
     const boardAddress = board.options.address
+
+    // Storage
+    const storageContract = new web3.eth
+      .Contract(storageInterface.abi, { data: storageInterface.bytecode })
+
+    const storage = await storageContract
+      .deploy({ arguments: [ boardAddress ]})
+      .send({ from: opts.fromAccount, gasLimit: opts.gasLimit })
+
+    const storageAddress = storage.options.address
 
     const deployedAddressesExists = await fs.pathExists(deployedAddressesPath)
 
