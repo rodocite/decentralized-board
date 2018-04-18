@@ -24,6 +24,8 @@
   },
   "scripts": {
     "dev": "next",
+    "build": "next build",
+    "production": "next build && next start",
     "blockchain": "ganache-cli",
     "compile": "sulk --config ./config/sulk.config.js",
     "deploy": "node scripts/deploy-contracts.js --config ./config/contracts.deploy.config.js --rpc development",
