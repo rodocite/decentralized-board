@@ -3,12 +3,31 @@ import { encodeIPFSHash, decodeIPFSHash } from './utilities'
 import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
+import _ from 'lodash'
+
+// do this for now to show content
+class Content extends React.Component {
+  state = {
+    content: ''
+  }
+
+  componentDidMount() {
+    this.props.content.then((content) => {
+      this.setState({ content })
+    })
+  }
+
+  render() {
+    return (
+      <div>{ this.state.content }</div>
+    )
+  }
+}
 
 class Index extends React.Component {
   state = {
     ipfsReady: false,
-    ipfsPath: '',
-    ipfsData: '',
+    content: [],
     message: '',
     publicAddress: ''
   }
@@ -20,7 +39,7 @@ class Index extends React.Component {
       this.setState({ ipfsReady: true }, () => {
         console.log(`IPFS node ready: ${this.state.ipfsReady}`)
       })
-      this.getFromIPFS()
+      this.getFromContract()
     })
   }
 
@@ -36,31 +55,60 @@ class Index extends React.Component {
       this.ipfs.files.add(message_, (err, res) => {
         const { hash } = res[0]
         const decodedHash = decodeIPFSHash(hash)
-
-        Board.methods.setAddress(decodedHash).send({ from: this.state.publicAddress })
-          .then(() => {
-            this.setState({ ipfsData: message })
-          })
+        Board.methods.set(decodedHash).send({
+          from: this.state.publicAddress,
+          value: web3.utils.toWei('1', 'ether'),
+          gas: 2000000
+        })
+        .then(() => {
+          this.getFromContract()
+        })
       })
     }
   }
 
-  getFromIPFS = () => {
-    Board.methods.getAddress().call().then((ipfsAddress) => {
-      if (!ipfsAddress) return
-      const ipfsHash = encodeIPFSHash(ipfsAddress)
+  getFromContract = () => {
+    Board.methods.getAddresses().call().then((tuples) => {
+      if (!tuples[0].length) return
 
-      this.ipfs.files.get(ipfsHash, (err, data) => {
-        const { content, path } = data[0]
-        this.setState({ ipfsData: content.toString() })
+      const addresses = tuples[0]
+      const values = tuples[1]
+      const content =  _.map(addresses, (address, index) => {
+        const ipfsPath = encodeIPFSHash(address)
+
+        return {
+          value: values[index],
+          address: ipfsPath,
+          content: this.getFromIPFS(ipfsPath)
+        }
       })
+
+      this.setState({ content })
+    })
+  }
+
+  getFromIPFS = async (ipfsHash) => {
+    const content = await this.ipfs.files.get(ipfsHash)
+    return content[0].content.toString()
+  }
+
+  renderContent() {
+    return _.map(this.state.content, ({ address, value, content }, index) => {
+      return (
+        <div key={ index }>
+          <div>{ address }</div>
+          <div>{ value }</div>
+          <Content content={ content } />
+          <Block />
+        </div>
+      )
     })
   }
 
   render() {
     return (
       <div>
-        <p>{ this.state.ipfsData }</p>
+        { this.renderContent() }
         <p>Message</p>
         <input onChange={(e) => this.setState({ message: e.target.value })} />
         <br />

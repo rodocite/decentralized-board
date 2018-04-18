@@ -14,9 +14,11 @@
     "abi-decoder": "^1.1.0",
     "bs58": "^4.0.1",
     "ipfs": "^0.28.2",
+    "lodash": "^4.17.5",
     "next": "^5.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
+    "styled-components": "^3.2.6",
     "sulk": "0.0.7",
     "web3": "^1.0.0-beta.33"
   },
