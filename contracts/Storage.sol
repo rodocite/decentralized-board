@@ -17,8 +17,8 @@ contract Storage {
     uint[] memory values = new uint[](estates.length);
 
     for(uint i = 0; i < estates.length; i++) {
-        addresses[i] = estates[i].ipfsAddress;
-        values[i] = estates[i].value;
+      addresses[i] = estates[i].ipfsAddress;
+      values[i] = estates[i].value;
     }
 
     return (addresses, values);

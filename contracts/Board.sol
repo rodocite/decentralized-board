@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "browser/Storage.sol";
+import "./Storage.sol";
 
 contract Board {
   Storage messageStorage;
