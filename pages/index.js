@@ -108,7 +108,7 @@ class Index extends React.Component {
       this.ipfs.files.add(message_, (err, res) => {
         const { hash } = res[0]
         const decodedHash = decodeIPFSHash(hash)
-        Board.methods.set(decodedHash).send({
+        Board.methods.setAddress(decodedHash).send({
           from: this.state.publicAddress,
           value: web3.utils.toWei(value, 'ether'),
           gas: 2000000
