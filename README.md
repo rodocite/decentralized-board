@@ -1,4 +1,5 @@
-![](https://github.com/rodocite/smart-contracts-project/blob/master/screenshot.png)
+![](https://github.com/rodocite/smart-contracts-project/blob/master/ss1.png)
+![](https://github.com/rodocite/smart-contracts-project/blob/master/ss2.png)
 
 # Message Board
 A "message" board dapp using NextJS, Ethereum, and IPFS. Users can freely post messages. Emphasis (only font size at the moment) of the message is determined by value of ETH sent in. Messages are stored in IPFS and an IPFS hash/path is recorded in the transaction that is used to retrieve the message.
