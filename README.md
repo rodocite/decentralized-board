@@ -35,6 +35,6 @@ npm run dev
 ```
 
 ## Posting a Message
-You need a wallet address. Copy a `public key` from the 10 ganache-cli will provide you after you `npm run blockchain`. The amount of ETH specified will affect how big the message is.
+You need a wallet address. Copy a `public key` from the 10 ganache-cli will provide you after you `npm run blockchain`. The amount of ETH specified will affect how big the message is. When someone posts, the ETH sent in will be transferred to the owner (wallet address) of the Smart Contract.
 
 ![](https://github.com/rodocite/smart-contracts-project/blob/master/ganache-accounts.png)
