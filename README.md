@@ -8,6 +8,8 @@ This project is a bit of a contrived example of using IPFS with Ethereum since y
 Currently, it doesn't seem possible to unpin data using the IPFS.js library that this project is using.
 
 ## Starting the Project
+Start the blockchain server first. Then compile & deploy the smart contracts. If there are any changes on the smart contracts, they need to be re-compiled and re-deployed. Restart the blockchain server if you want a fresh blockchain with no stored messages.
+
 ```
 npm install
 npm run blockchain
