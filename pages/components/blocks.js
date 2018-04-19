@@ -5,7 +5,8 @@ import _ from 'lodash'
 const Block = styled.div`
   font-family: Open Sans;
   box-sizing: border-box;
-  background: white;
+  background: steelblue;
+  color: white;
   font-size: ${ ({size}) => size }px;
   display: inline-block;
   transform: translateZ(0);
@@ -16,7 +17,6 @@ const Block = styled.div`
   padding: ${ ({size}) => size / 3 }px;
   border-radius: 5px;
   word-wrap: break-word;
-  max-width: 250px;
   flex: 0;
 
   @keyframes scaleIn {
