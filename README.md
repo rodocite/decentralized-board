@@ -6,6 +6,20 @@ A "message" board dapp using NextJS, Ethereum, and IPFS. Users can freely post m
 ## An example of IPFS storage
 This project is a bit of a contrived example of using IPFS with Ethereum since you can actually store text in a Smart Contract state variable. However, storing the messages on IPFS does removes load from the blockchain and would theoretically reduce gas price per transaction.
 
+## Hashing
+When storing the IPFS hash/path into the contracts, you need to re-hash it into a 32-byte hex. Check out this SO: https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
+
+```js
+export const encodeIPFSHash = (hash) => {
+  const hashHex = '1220' + hash.slice(2)
+  const hashBytes = Buffer.from(hashHex, 'hex')
+  const hashStr = bs58.encode(hashBytes)
+  return hashStr
+}
+
+export const decodeIPFSHash = (hash) => web3.utils.bytesToHex(bs58.decode(hash).slice(2))
+```
+
 ## Unpinning Data
 Currently, it doesn't seem possible to unpin data using the IPFS.js library that this project is using.
 
