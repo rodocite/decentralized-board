@@ -1,13 +1,13 @@
 ![](https://github.com/rodocite/smart-contracts-project/blob/master/ss1.png)
 ![](https://github.com/rodocite/smart-contracts-project/blob/master/ss2.png)
 
-# Message Board
-A "message" board dapp using NextJS, Ethereum, and IPFS. Users can freely post messages. Emphasis (only font size at the moment) of the message is determined by value of ETH sent in. Messages are stored in IPFS and an IPFS hash/path is recorded in the transaction that is used to retrieve the message.
+# Decentralized Bulletin Board
+A "bulletin board" dapp using NextJS, Ethereum, and IPFS. Users can freely post messages. Size of the message is determined by value of ETH sent in. Messages are stored in IPFS and the IPFS hash/path is recorded in the transaction. The motivation for this toy project was to look into Solidity, IPFS, and see how painful (or not) it would be to create a dapp without the Truffle framework.
 
 ## An example of IPFS storage
-This project is a bit of a contrived example of using IPFS with Ethereum since you can actually store text in a Smart Contract state variable. However, storing the messages on IPFS does removes load from the blockchain and would theoretically reduce gas price per transaction.
+This project is a bit of a contrived example of using IPFS with Ethereum since you can store text in a Smart Contract state variable. However, storing the messages on IPFS removes some load from the blockchain and would theoretically reduce gas price per transaction.
 
-## Hashing
+## Storing IPFS path hash in a Smart Contract
 When storing the IPFS hash/path into the contracts, you need to re-hash it into a 32-byte hex. Check out this SO: https://ethereum.stackexchange.com/questions/17094/how-to-store-ipfs-hash-using-bytes
 
 ```js
