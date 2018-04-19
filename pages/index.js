@@ -1,6 +1,7 @@
 import { Board } from './contracts/Board.sol'
 import { encodeIPFSHash, decodeIPFSHash } from './utilities'
 import Blocks from './components/blocks'
+import Hamburger from './components/hamburger'
 import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
@@ -128,6 +129,7 @@ class Index extends React.Component {
       <div>
         <Blocks data={ this.state.content } />
         { this.renderInput() }
+        <Hamburger onClick={() => this.setState({ showInput: !this.state.showInput })} />
       </div>
     )
   }
