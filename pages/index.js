@@ -12,25 +12,65 @@ const InputContainer = styled.div`
   position: fixed;
   font-family: Open Sans;
   display: flex;
-  padding: 15px;
+  padding: 20px;
   justify-content: center;
-  align-items: center;
-  top: 50%;
   left: 50%;
   background: white;
   animation-duration: 0.3s;
-  border: 1px solid #999999;
   animation-name: scaleIn;
   transform: translateX(-50%);
+  flex-direction: column;
+  bottom: 100px;
+  width: 400px;
   z-index: 2;
+
+  p {
+    margin: 0;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  input {
+    font-size: 28px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    background: lightslategray;
+    border: none;
+    color: white;
+    padding: 5px;
+
+    :focus {
+      outline: none;
+    }
+  }
+
+  button {
+    max-width: 150px;
+    height: 50px;
+    background: lightsalmon;
+    font-size: 12px;
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 2px;
+  }
+
+  @media(max-width: 425px) {
+    width: 90%;
+  }
 
   @keyframes scaleIn {
     0% {
       opacity: 0;
+      bottom: 0;
     }
 
     100% {
       opacity: 1;
+      bottom: 100px;
     }
   }
 `
@@ -113,13 +153,13 @@ class Index extends React.Component {
   renderInput() {
     return this.state.showInput && (
       <InputContainer>
-        <p>Message</p>
+        <p>Your Message</p>
         <input onChange={(e) => this.setState({ message: e.target.value })} value={ this.state.message } />
-        <p>Value</p>
+        <p>Amount of Ethereum</p>
         <input onChange={(e) => this.setState({ value: e.target.value })} value={ this.state.value } />
-        <p>Address</p>
+        <p>Your Wallet Address</p>
         <input onChange={(e) => this.setState({ publicAddress: e.target.value })} value={ this.state.publicAddress } />
-        <button onClick={this.addToIPFS}>Submit</button>
+        <button onClick={this.addToIPFS}>Post Your Message</button>
       </InputContainer>
     )
   }
