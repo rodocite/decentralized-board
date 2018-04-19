@@ -1,3 +1,5 @@
+![](https://github.com/rodocite/smart-contracts-project/blob/master/screenshot.png)
+
 # Tweet Board
 A "tweet" board dapp using NextJS, Ethereum, and IPFS. Users can freely post messages. Emphasis (only font size at the moment) of the message is determined by value of ETH sent in. Messages are stored in IPFS and an IPFS hash/path is recorded in the transaction that is used to retrieve the message.
 
@@ -17,3 +19,8 @@ npm run compile
 npm run deploy
 npm run dev
 ```
+
+## Posting a Message
+You need a wallet address. Copy a `public key` from the 10 ganache-cli will provide you after you `npm run blockchain`. The amount of ETH specified will affect how big the message is.
+
+![](https://github.com/rodocite/smart-contracts-project/blob/master/ganache-accounts.png)
