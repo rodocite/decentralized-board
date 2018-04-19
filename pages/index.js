@@ -1,42 +1,47 @@
 import { Board } from './contracts/Board.sol'
 import { encodeIPFSHash, decodeIPFSHash } from './utilities'
+import Blocks from './components/blocks'
 import web3 from 'web3'
 import bs58 from 'bs58'
 import IPFS from 'ipfs'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-const Block = styled.div`
-  background: rgb(235, 237, 240);
-  width: 10px;
-  height: 10px;
+const InputContainer = styled.div`
+  position: fixed;
+  font-family: Open Sans;
+  display: flex;
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  background: white;
+  animation-duration: 0.3s;
+  border: 1px solid #999999;
+  animation-name: scaleIn;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  @keyframes scaleIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 `
-
-// do this for now to show content
-class Content extends React.Component {
-  state = {
-    content: ''
-  }
-
-  componentDidMount() {
-    this.props.content.then((content) => {
-      this.setState({ content })
-    })
-  }
-
-  render() {
-    return (
-      <div>{ this.state.content }</div>
-    )
-  }
-}
 
 class Index extends React.Component {
   state = {
     ipfsReady: false,
     content: [],
     message: '',
-    publicAddress: ''
+    publicAddress: '',
+    showInput: false,
+    value: ''
   }
 
   componentDidMount() {
@@ -55,7 +60,7 @@ class Index extends React.Component {
   }
 
   addToIPFS = () => {
-    const { ipfsReady, message } = this.state
+    const { ipfsReady, message, value } = this.state
     const message_ = new Buffer(message)
 
     if (message && ipfsReady) {
@@ -64,7 +69,7 @@ class Index extends React.Component {
         const decodedHash = decodeIPFSHash(hash)
         Board.methods.set(decodedHash).send({
           from: this.state.publicAddress,
-          value: web3.utils.toWei('1', 'ether'),
+          value: web3.utils.toWei(value, 'ether'),
           gas: 2000000
         })
         .then(() => {
@@ -90,7 +95,12 @@ class Index extends React.Component {
         }
       })
 
-      this.setState({ content })
+      this.setState({
+        content,
+        message: '',
+        publicAddress: '',
+        value: ''
+      })
     })
   }
 
@@ -99,30 +109,25 @@ class Index extends React.Component {
     return content[0].content.toString()
   }
 
-  renderContent() {
-    return _.map(this.state.content, ({ address, value, content }, index) => {
-      return (
-        <div key={ index }>
-          <div>{ address }</div>
-          <div>{ value }</div>
-          <Content content={ content } />
-          <Block />
-        </div>
-      )
-    })
+  renderInput() {
+    return this.state.showInput && (
+      <InputContainer>
+        <p>Message</p>
+        <input onChange={(e) => this.setState({ message: e.target.value })} value={ this.state.message } />
+        <p>Value</p>
+        <input onChange={(e) => this.setState({ value: e.target.value })} value={ this.state.value } />
+        <p>Address</p>
+        <input onChange={(e) => this.setState({ publicAddress: e.target.value })} value={ this.state.publicAddress } />
+        <button onClick={this.addToIPFS}>Submit</button>
+      </InputContainer>
+    )
   }
 
   render() {
     return (
       <div>
-        { this.renderContent() }
-        <p>Message</p>
-        <input onChange={(e) => this.setState({ message: e.target.value })} />
-        <br />
-        <p>Address</p>
-        <input onChange={(e) => this.setState({ publicAddress: e.target.value })} />
-        <br />
-        <button onClick={this.addToIPFS}>Submit</button>
+        <Blocks data={ this.state.content } />
+        { this.renderInput() }
       </div>
     )
   }
